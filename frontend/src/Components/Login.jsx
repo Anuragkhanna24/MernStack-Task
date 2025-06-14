@@ -1,17 +1,20 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 
 const Login = () => {
     const [form, setForm] = useState({ email: '', password: '' })
-    const navigate = useNavigate()
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const res = await axios.post(`http://localhost:5000/api/auth/login`, form)
-        localStorage.setItem('token', res.data.token)
-        navigate('/welcome')
-
+   
+      const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/login", form);
+      localStorage.setItem('token', res.data.token);
+      window.location.href = '/welcome';
+    } catch (err) {
+      alert("Login failed. Please check your credentials.");
     }
+  };
 
     return (
         <div className="bg-light p-5 ">
